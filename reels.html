@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Kit 8 Reels — @jacson_dreams</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d12;--surface:#16151e;--surface2:#1e1d28;
+  --border:rgba(255,255,255,0.08);--text:#f0eeff;--muted:rgba(240,238,255,0.45);
+  --accent:#b06aff;--accent2:#ff5fcb;--green:#1de9a0;--amber:#ffb830;--blue:#4db8ff;
+  --radius:16px;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+
+header{display:flex;align-items:center;gap:12px;padding:18px 32px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:100}
+.logo{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.header-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:700}
+.header-sub{font-size:12px;color:var(--muted)}
+
+main{max-width:860px;margin:0 auto;padding:32px 24px 80px}
+
+.hero{text-align:center;padding:40px 0 32px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(26px,5vw,48px);font-weight:800;line-height:1.1;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:14px;max-width:500px;margin:0 auto}
+
+/* Reel selector */
+.reel-nav{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px}
+.reel-btn{background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:8px 16px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;white-space:nowrap}
+.reel-btn:hover{color:var(--text);border-color:rgba(176,106,255,0.4)}
+.reel-btn.active{background:rgba(176,106,255,0.15);border-color:rgba(176,106,255,0.5);color:var(--accent)}
+
+/* Reel card */
+.reel-page{display:none}.reel-page.active{display:block}
+
+.reel-header{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:24px;margin-bottom:16px;display:flex;gap:20px;align-items:flex-start}
+.reel-num-big{font-family:'Syne',sans-serif;font-size:48px;font-weight:800;color:var(--accent);line-height:1;min-width:60px}
+.reel-meta{}
+.reel-theme{font-size:11px;font-weight:600;color:var(--accent2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px}
+.reel-title-big{font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--text);margin-bottom:10px;line-height:1.3}
+.reel-badges{display:flex;gap:8px;flex-wrap:wrap}
+.badge{font-size:11px;padding:3px 10px;border-radius:99px;font-weight:500}
+.badge-purple{background:rgba(176,106,255,0.15);color:var(--accent);border:1px solid rgba(176,106,255,0.25)}
+.badge-green{background:rgba(29,233,160,0.1);color:var(--green);border:1px solid rgba(29,233,160,0.2)}
+.badge-amber{background:rgba(255,184,48,0.15);color:var(--amber);border:1px solid rgba(255,184,48,0.2)}
+.badge-pink{background:rgba(255,95,203,0.15);color:var(--accent2);border:1px solid rgba(255,95,203,0.2)}
+
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
+@media(max-width:580px){.grid2{grid-template-columns:1fr}}
+
+.block{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 22px;margin-bottom:16px}
+.block-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:12px}
+.label-purple{color:var(--accent)}
+.label-green{color:var(--green)}
+.label-amber{color:var(--amber)}
+.label-pink{color:var(--accent2)}
+.label-blue{color:var(--blue)}
+
+/* Script cenas */
+.cena{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border)}
+.cena:last-child{border-bottom:none}
+.cena-time{font-size:11px;font-weight:700;color:var(--accent);min-width:60px;padding-top:2px;font-family:'Syne',sans-serif}
+.cena-content{}
+.cena-label{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--accent2);margin-bottom:4px}
+.cena-fala{font-size:14px;color:var(--text);line-height:1.65;margin-bottom:6px}
+.cena-tela{font-size:12px;color:var(--muted);background:var(--surface2);border-radius:8px;padding:8px 12px;border-left:2px solid var(--accent);line-height:1.5}
+.cena-cam{font-size:11px;color:var(--amber);margin-top:6px}
+
+/* Legenda */
+.legenda-box{background:var(--surface2);border-radius:12px;padding:18px;border-left:3px solid var(--accent);font-size:14px;color:var(--text);line-height:1.8;white-space:pre-line;margin-bottom:12px}
+.hash-box{font-size:12px;color:var(--green);line-height:2}
+
+/* Copy btn */
+.copy-btn{background:none;border:1px solid var(--border);border-radius:99px;padding:6px 14px;font-size:12px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;float:right;margin-top:-4px}
+.copy-btn:hover{color:var(--text);border-color:rgba(255,255,255,0.3)}
+.copy-btn.copied{color:var(--green);border-color:rgba(29,233,160,0.4)}
+
+/* Canva tips */
+.tip-list{display:flex;flex-direction:column;gap:8px}
+.tip{display:flex;gap:10px;align-items:flex-start;font-size:13px;color:var(--muted);line-height:1.5}
+.tip-dot{width:6px;height:6px;border-radius:50%;background:var(--accent);margin-top:6px;flex-shrink:0}
+
+/* Nav between reels */
+.reel-nav-btns{display:flex;justify-content:space-between;margin-top:24px;gap:12px}
+.nav-reel-btn{background:var(--surface);border:1px solid var(--border);border-radius:99px;padding:10px 20px;font-size:13px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.nav-reel-btn:hover{color:var(--text);border-color:rgba(176,106,255,0.4)}
+.nav-reel-btn.next{background:rgba(176,106,255,0.15);border-color:rgba(176,106,255,0.5);color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">🎬</div>
+  <div>
+    <div class="header-title">Kit 8 Reels — @jacson_dreams</div>
+    <div class="header-sub">Diretor de Marketing · Roteiros prontos para gravar</div>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <h1>8 Reels prontos<br><span>para gravar hoje</span></h1>
+    <p>Cada Reel tem roteiro cena por cena, o que falar, o que colocar na tela, a legenda completa e as hashtags. Cole no CapCut ou Canva e publique.</p>
+  </div>
+
+  <div class="reel-nav">
+    <button class="reel-btn active" onclick="showReel(1,this)">🎬 Reel 01</button>
+    <button class="reel-btn" onclick="showReel(2,this)">🎬 Reel 02</button>
+    <button class="reel-btn" onclick="showReel(3,this)">🎬 Reel 03</button>
+    <button class="reel-btn" onclick="showReel(4,this)">🎬 Reel 04</button>
+    <button class="reel-btn" onclick="showReel(5,this)">🎬 Reel 05</button>
+    <button class="reel-btn" onclick="showReel(6,this)">🎬 Reel 06</button>
+    <button class="reel-btn" onclick="showReel(7,this)">🎬 Reel 07</button>
+    <button class="reel-btn" onclick="showReel(8,this)">🎬 Reel 08</button>
+  </div>
+
+  <!-- REEL 01 -->
+  <div class="reel-page active" id="reel-1">
+    <div class="reel-header">
+      <div class="reel-num-big">01</div>
+      <div class="reel-meta">
+        <div class="reel-theme">🧠 Autoridade</div>
+        <div class="reel-title-big">3 erros de marketing que estão matando suas vendas</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 45–55 seg</span>
+          <span class="badge badge-green">alto potencial viral</span>
+          <span class="badge badge-amber">muito salvável</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK — olha pra câmera e fala</div>
+          <div class="cena-fala">"Se você vende online e não está batendo meta, aposta que é um desses 3 erros."</div>
+          <div class="cena-tela">TEXTO NA TELA: "3 erros que matam suas vendas 🚨"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, olho no olho, expressão séria</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–15 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">❌ ERRO 1</div>
+          <div class="cena-fala">"Erro número um: falar com todo mundo. Quando você tenta falar com todo mundo, não fala com ninguém. Sua mensagem precisa ser específica."</div>
+          <div class="cena-tela">TEXTO NA TELA: "ERRO 1: Público muito amplo ❌"</div>
+          <div class="cena-cam">📷 Câmera: meio corpo, pode gesticular</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">15–28 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">❌ ERRO 2</div>
+          <div class="cena-fala">"Erro dois: copiar o concorrente. Se você copia quem já existe, você só consegue ser a versão mais barata. E guerra de preço é buraco sem fundo."</div>
+          <div class="cena-tela">TEXTO NA TELA: "ERRO 2: Copiar em vez de diferenciar ❌"</div>
+          <div class="cena-cam">📷 Câmera: mesmo enquadramento, troca de roupa ou cenário opcional</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">28–42 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">❌ ERRO 3</div>
+          <div class="cena-fala">"Erro três, e esse é o mais comum: impulsionar post sem estratégia. Jogar dinheiro em anúncio sem saber seu custo por lead é o caminho mais rápido pra perder dinheiro."</div>
+          <div class="cena-tela">TEXTO NA TELA: "ERRO 3: Anunciar sem estratégia ❌"</div>
+          <div class="cena-cam">📷 Câmera: mesmo ângulo</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">42–52 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ CTA FINAL</div>
+          <div class="cena-fala">"Salva esse vídeo pra não esquecer. E me segue, porque toda semana tem dica assim aqui."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Salva 💾 + Segue @jacson_dreams"</div>
+          <div class="cena-cam">📷 Câmera: sorri, aponta pra câmera no CTA</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="block">
+        <div class="block-label label-green">🎨 Dicas de gravação</div>
+        <div class="tip-list">
+          <div class="tip"><div class="tip-dot"></div>Fundo: parede lisa ou escritório organizado</div>
+          <div class="tip"><div class="tip-dot"></div>Iluminação: luz natural de frente ou ring light</div>
+          <div class="tip"><div class="tip-dot"></div>Roupa: camisa ou polo — transmite autoridade</div>
+          <div class="tip"><div class="tip-dot"></div>Cortes rápidos a cada frase no CapCut</div>
+          <div class="tip"><div class="tip-dot"></div>Música: instrumental leve de fundo (baixo volume)</div>
+          <div class="tip"><div class="tip-dot"></div>Legenda automática: ative no CapCut</div>
+        </div>
+      </div>
+      <div class="block">
+        <div class="block-label label-amber">📱 Configurações de post</div>
+        <div class="tip-list">
+          <div class="tip"><div class="tip-dot"></div>Formato: vertical 9:16 (1080x1920px)</div>
+          <div class="tip"><div class="tip-dot"></div>Publicar: Sexta às 18h ou Quarta às 19h</div>
+          <div class="tip"><div class="tip-dot"></div>Capa: frame com texto do erro 1 em destaque</div>
+          <div class="tip"><div class="tip-dot"></div>Compartilha nos Stories logo após publicar</div>
+          <div class="tip"><div class="tip-dot"></div>Responde todos os comentários nas primeiras 2h</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg1')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg1">Se você vende online e não bate meta, provavelmente está cometendo um desses 3 erros 👇
+
+❌ Erro 1: Tentar falar com todo mundo
+Mensagem genérica = resultado zero. Quanto mais específico for seu público, mais sua campanha converte.
+
+❌ Erro 2: Copiar o concorrente
+Você nunca vai ganhar sendo a versão mais barata de alguém. Diferenciação é o único caminho.
+
+❌ Erro 3: Impulsionar sem estratégia
+Anúncio sem saber seu CPL, CPA e ROAS é dinheiro jogado fora.
+
+Salva esse post pra não esquecer 💾
+E me segue para mais dicas toda semana 👊</div>
+      <div class="hash-box" id="hash1">#marketingdigital #errosdemarketing #estrategiademarketing #vendasonline #gestaomarketing #dicasdemarketing #marketingnobrasil #trafegopago #marketingderesultados #empreendedorismo #negociosdigitais #marketingdireto</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReel(1, document.querySelectorAll('.reel-btn')[0])">← Início</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(2)">Reel 02 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 02 -->
+  <div class="reel-page" id="reel-2">
+    <div class="reel-header">
+      <div class="reel-num-big">02</div>
+      <div class="reel-meta">
+        <div class="reel-theme">📈 Case de resultado</div>
+        <div class="reel-title-big">Como aumentei o tráfego de um cliente em 300% sem pagar anúncio</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 55–60 seg</span>
+          <span class="badge badge-green">prova social</span>
+          <span class="badge badge-pink">compartilhável</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"Um cliente chegou até mim com o site zerando visitas. Em 90 dias, triplicamos o tráfego sem gastar um centavo em anúncio."</div>
+          <div class="cena-tela">TEXTO NA TELA: "+300% de tráfego em 90 dias 📈"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, tom de contar história</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–18 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🔍 CONTEXTO</div>
+          <div class="cena-fala">"O cliente tinha um e-commerce de nicho, produto bom, mas invisível no Google. Zero estratégia de conteúdo, zero SEO, zero presença social."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Problema: invisível no Google 👻"</div>
+          <div class="cena-cam">📷 Câmera: pode mostrar tela do computador brevemente</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">18–45 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ O QUE FIZEMOS</div>
+          <div class="cena-fala">"Primeiro: mapeamos as 20 palavras-chave mais buscadas do nicho. Segundo: criamos 3 artigos por semana respondendo as dúvidas do cliente ideal. Terceiro: adaptamos esse conteúdo pro Instagram e Pinterest. Quarto: otimizamos todas as páginas de produto com SEO básico."</div>
+          <div class="cena-tela">TEXTO NA TELA: "✅ SEO de nicho / ✅ Conteúdo constante / ✅ Multi-plataforma / ✅ On-page SEO"</div>
+          <div class="cena-cam">📷 Câmera: mostra os pontos com os dedos ou cartões</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">45–57 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🏆 RESULTADO + CTA</div>
+          <div class="cena-fala">"90 dias depois: 300% mais visitas, 40% mais conversão e o cliente economizou o que gastaria em 6 meses de anúncio. Comenta TRÁFEGO aqui embaixo que te mando o passo a passo completo."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Comenta TRÁFEGO 👇 pra receber o passo a passo"</div>
+          <div class="cena-cam">📷 Câmera: sorri, aponta pra baixo no CTA</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg2')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg2">+300% de tráfego em 90 dias. Sem gastar R$1 em anúncio.
+
+Esse foi um case real de um cliente de e-commerce que chegou até mim com o site invisível no Google.
+
+O que fizemos:
+✅ Mapeamento das 20 palavras-chave do nicho
+✅ 3 artigos por semana respondendo dúvidas reais do cliente ideal
+✅ Reaproveitamento do conteúdo no Instagram e Pinterest
+✅ SEO on-page em todas as páginas de produto
+
+Resultado em 90 dias:
+📈 +300% de visitas orgânicas
+💰 +40% de taxa de conversão
+🎯 Economizou 6 meses de verba de anúncio
+
+Marketing orgânico funciona. O que falta é consistência e estratégia.
+
+Comenta TRÁFEGO aqui embaixo 👇 que te mando o passo a passo completo.</div>
+      <div class="hash-box">#marketingorganico #seo #trafego #ecommercebrasil #resultadosreais #casodesucesso #crescimentodigital #marketingsemverba #conteudodigital #estrategiaseo #marketingdeconteudo #negociosdigitais</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(1)">← Reel 01</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(3)">Reel 03 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 03 -->
+  <div class="reel-page" id="reel-3">
+    <div class="reel-header">
+      <div class="reel-num-big">03</div>
+      <div class="reel-meta">
+        <div class="reel-theme">🎯 Bastidores</div>
+        <div class="reel-title-big">Minha rotina como Diretor de Marketing — um dia real</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 30–45 seg</span>
+          <span class="badge badge-green">fácil de gravar</span>
+          <span class="badge badge-amber">humanização</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"Quer saber como é um dia real de um Diretor de Marketing? Vem comigo."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Um dia real como Diretor de Marketing 📋"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo de manhã, pode estar tomando café</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–12 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">☀️ MANHÃ</div>
+          <div class="cena-fala">"8h da manhã: revisão das métricas do dia anterior. CTR, CPA, ROAS. Já sei o que precisa de ajuste antes do primeiro café."</div>
+          <div class="cena-tela">TEXTO NA TELA: "8h — Análise de métricas 📊"</div>
+          <div class="cena-cam">📷 Câmera: filmando a tela do computador + você de lado</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">12–22 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🏢 MEIO DIA</div>
+          <div class="cena-fala">"10h: reunião com os clientes. Apresentação de resultado, ajuste de estratégia, aprovação de criativo. É aqui que o planejamento encontra a realidade."</div>
+          <div class="cena-tela">TEXTO NA TELA: "10h — Reunião com clientes 🤝"</div>
+          <div class="cena-cam">📷 Câmera: filmando sua mesa de reunião ou notebook</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">22–35 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🌙 FIM DO DIA</div>
+          <div class="cena-fala">"14h em diante: criação e execução. Revisão de campanhas, aprovação de conteúdo, briefing de novos projetos. Às vezes o dia só termina às 21h."</div>
+          <div class="cena-tela">TEXTO NA TELA: "14h — Execução e criação ⚡"</div>
+          <div class="cena-cam">📷 Câmera: você trabalhando, câmera no tripé de lado</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">35–43 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ FECHAMENTO + CTA</div>
+          <div class="cena-fala">"É isso. Marketing de verdade é assim: dados de manhã, decisão ao longo do dia e aprendizado toda noite. Me segue pra ver mais bastidores assim."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Segue @jacson_dreams 👊"</div>
+          <div class="cena-cam">📷 Câmera: olha pra câmera, fala direto</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg3')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg3">8h da manhã. Já analisando métricas antes do café ☕
+
+Esse é o dia real de um Diretor de Marketing — sem filtro.
+
+📊 8h → Revisão de KPIs: CTR, CPA, ROAS, conversão
+🤝 10h → Reunião com clientes: resultado, ajuste e aprovação
+⚡ 14h → Execução: campanhas, briefing, criação de conteúdo
+🌙 21h → Fim do dia (quando tem sorte)
+
+A verdade é que marketing de alto nível é isso:
+Dados + decisão + execução. Todo dia. Sem parar.
+
+O que é mais difícil no seu dia a dia de marketing?
+Me conta nos comentários 👇</div>
+      <div class="hash-box">#bastidores #directormarketing #rotinademarketing #marketingdeverdade #lideranca #gestaomarketing #umdianavidademarketing #marketingnobrasil #profissionaldemarketing #trabalhodemarketing</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(2)">← Reel 02</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(4)">Reel 04 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 04 -->
+  <div class="reel-page" id="reel-4">
+    <div class="reel-header">
+      <div class="reel-num-big">04</div>
+      <div class="reel-meta">
+        <div class="reel-theme">🔥 Tendência / Opinião</div>
+        <div class="reel-title-big">IA vai substituir o profissional de marketing? Minha opinião real</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 50–60 seg</span>
+          <span class="badge badge-pink">gera debate</span>
+          <span class="badge badge-green">trending</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK POLÊMICO</div>
+          <div class="cena-fala">"Todo mundo pergunta: a IA vai substituir o profissional de marketing? A minha resposta vai contrariar muita gente."</div>
+          <div class="cena-tela">TEXTO NA TELA: "IA vai substituir o marketing? 🤖"</div>
+          <div class="cena-cam">📷 Câmera: expressão séria, olho no olho</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–20 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">💬 POSICIONAMENTO</div>
+          <div class="cena-fala">"A IA já está substituindo profissional mediano que só executa. Quem cria conteúdo genérico, que só agendava post e copiava concorrente — esse já foi substituído. E isso é bom."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Profissional mediano → já foi substituído ⚠️"</div>
+          <div class="cena-cam">📷 Câmera: pode usar cortes entre frases</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">20–42 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ ARGUMENTO PRINCIPAL</div>
+          <div class="cena-fala">"Mas quem entende de estratégia, que sabe ler dados, que tem visão de negócio e que usa a IA como ferramenta — esse profissional nunca foi tão valioso. A IA não toma decisão. Não entende contexto de cliente. Não negocia com CEO nervoso."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Estrategista + IA = profissional do futuro 🚀"</div>
+          <div class="cena-cam">📷 Câmera: gesticula, transmite convicção</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">42–57 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎯 CONCLUSÃO + CTA</div>
+          <div class="cena-fala">"A pergunta não é se a IA vai te substituir. A pergunta é: você está usando IA pra ser mais estratégico ou ficou parado enquanto todo mundo evoluiu? Concorda ou discorda? Me fala nos comentários."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Você está usando IA ou parado? 👇"</div>
+          <div class="cena-cam">📷 Câmera: aponta pra câmera no final</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg4')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg4">Opinião impopular: a IA já substituiu o profissional de marketing mediano. E vai substituir mais.
+
+Mas calma — deixa eu explicar.
+
+Quem a IA está substituindo:
+❌ Quem só executa sem pensar
+❌ Quem cria conteúdo genérico
+❌ Quem não entende de dados
+❌ Quem resistiu à mudança
+
+Quem a IA está turbinando:
+✅ Quem tem visão estratégica
+✅ Quem sabe ler métricas e tomar decisão
+✅ Quem usa IA como ferramenta, não como ameaça
+✅ Quem entende de negócio, não só de marketing
+
+A IA não negocia com CEO nervoso.
+A IA não entende o contexto emocional do cliente.
+A IA não cria estratégia — ela executa estratégia.
+
+A pergunta certa não é "a IA vai me substituir?"
+É "eu estou evoluindo junto com ela?"
+
+Concorda ou discorda? Me fala nos comentários 👇</div>
+      <div class="hash-box">#inteligenciaartificial #iamarketing #futurodomarketing #marketingdigital #transformacaodigital #profissionaldemarketing #ianomarketing #tendenciasmarketing #estrategiademarketing #marketingmoderno</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(3)">← Reel 03</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(5)">Reel 05 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 05 -->
+  <div class="reel-page" id="reel-5">
+    <div class="reel-header">
+      <div class="reel-num-big">05</div>
+      <div class="reel-meta">
+        <div class="reel-theme">🧠 Autoridade — Ferramentas</div>
+        <div class="reel-title-big">5 ferramentas de marketing que uso todo dia (todas gratuitas)</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 55–60 seg</span>
+          <span class="badge badge-green">muito salvável</span>
+          <span class="badge badge-amber">compartilhável</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"5 ferramentas de marketing que uso todo dia — e todas são gratuitas. Salva antes de terminar o vídeo."</div>
+          <div class="cena-tela">TEXTO NA TELA: "5 ferramentas gratuitas de marketing 🛠️"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, tom de segredo</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–15 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🔧 FERRAMENTA 1 e 2</div>
+          <div class="cena-fala">"Um: Google Search Console. Você vê exatamente por onde as pessoas chegam no seu site, quais palavras buscam e onde você pode crescer. Dois: Ubersuggest. Pesquisa de palavra-chave gratuita, simples e direta."</div>
+          <div class="cena-tela">TEXTO NA TELA: "1. Google Search Console / 2. Ubersuggest"</div>
+          <div class="cena-cam">📷 Câmera: pode mostrar tela rapidamente</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">15–32 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🔧 FERRAMENTA 3 e 4</div>
+          <div class="cena-fala">"Três: Canva. Criativo profissional em minutos, mesmo sem designer. Quatro: ChatGPT ou Claude. Para criar briefing, rascunho de copy e ideias de campanha em segundos."</div>
+          <div class="cena-tela">TEXTO NA TELA: "3. Canva / 4. ChatGPT ou Claude IA"</div>
+          <div class="cena-cam">📷 Câmera: mostra os dedos contando</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">32–48 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🔧 FERRAMENTA 5</div>
+          <div class="cena-fala">"Cinco: Meta Business Suite. Análise completa do Instagram e Facebook, agendamento de post, respostas centralizadas. Tudo numa tela só, de graça."</div>
+          <div class="cena-tela">TEXTO NA TELA: "5. Meta Business Suite 📱"</div>
+          <div class="cena-cam">📷 Câmera: mesmo enquadramento</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">48–57 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ CTA</div>
+          <div class="cena-fala">"Salva esse vídeo e me fala nos comentários qual ferramenta você já usa e qual vai começar a usar hoje."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Qual você já usa? Comenta 👇"</div>
+          <div class="cena-cam">📷 Câmera: aponta pra baixo, sorri</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg5')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg5">5 ferramentas que uso todo dia no meu trabalho como Diretor de Marketing — e são todas gratuitas 🛠️
+
+🔍 1. Google Search Console
+Veja de onde vem seu tráfego, quais palavras-chave ranqueiam e onde você pode crescer sem gastar nada.
+
+📊 2. Ubersuggest
+Pesquisa de palavra-chave simples e gratuita. Ideal pra encontrar oportunidades de conteúdo e SEO.
+
+🎨 3. Canva
+Criativo profissional sem precisar de designer. Templates prontos, fácil e rápido.
+
+🤖 4. ChatGPT ou Claude
+Para briefing, copy, ideias de campanha e roteiro de conteúdo em segundos.
+
+📱 5. Meta Business Suite
+Análise de Instagram e Facebook, agendamento e respostas — tudo centralizado e gratuito.
+
+Salva esse post 💾 e me conta nos comentários:
+Qual você já usa e qual vai começar hoje? 👇</div>
+      <div class="hash-box">#ferramentasdemarketing #marketinggratuito #dicasdemarketing #ferramentasdigitais #marketingdigital #canva #seo #googleanalytics #ferramentasgratis #gestaomarketing #marketingnobrasil</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(4)">← Reel 04</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(6)">Reel 06 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 06 -->
+  <div class="reel-page" id="reel-6">
+    <div class="reel-header">
+      <div class="reel-num-big">06</div>
+      <div class="reel-meta">
+        <div class="reel-theme">📈 Autoridade — Tutorial</div>
+        <div class="reel-title-big">Como criar uma estratégia de marketing do zero em 5 passos</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 55–60 seg</span>
+          <span class="badge badge-green">muito salvável</span>
+          <span class="badge badge-amber">autoridade máxima</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"Quer montar uma estratégia de marketing do zero? Em 5 passos, eu te mostro como eu faço pra cada cliente novo."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Estratégia de marketing do zero 🎯"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, tom de professor</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–15 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">📌 PASSOS 1 e 2</div>
+          <div class="cena-fala">"Passo um: diagnóstico. Analisa onde o negócio está hoje — métricas, concorrentes, pontos fracos. Passo dois: define o avatar. Quem é o cliente ideal, quais são as dores, onde ele está."</div>
+          <div class="cena-tela">TEXTO NA TELA: "1. Diagnóstico / 2. Avatar do cliente"</div>
+          <div class="cena-cam">📷 Câmera: gesticula com os dedos</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">15–32 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">📌 PASSOS 3 e 4</div>
+          <div class="cena-fala">"Passo três: posicionamento. O que te diferencia? Por que o cliente ideal escolhe você e não o concorrente? Passo quatro: escolhe os canais. Não tenta estar em todo lugar. Foca onde seu cliente já está."</div>
+          <div class="cena-tela">TEXTO NA TELA: "3. Posicionamento / 4. Canais certos"</div>
+          <div class="cena-cam">📷 Câmera: mesmo enquadramento</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">32–50 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">📌 PASSO 5 + RESULTADO</div>
+          <div class="cena-fala">"Passo cinco: define as metas e KPIs antes de começar. Sem meta clara, você não sabe se está ganhando ou perdendo. É isso que separa estratégia de chute."</div>
+          <div class="cena-tela">TEXTO NA TELA: "5. Metas e KPIs claros 📊"</div>
+          <div class="cena-cam">📷 Câmera: tom firme, convicto</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">50–58 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ CTA</div>
+          <div class="cena-fala">"Salva esse vídeo — você vai precisar. E me segue pra receber mais conteúdo assim toda semana."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Salva 💾 + Segue @jacson_dreams"</div>
+          <div class="cena-cam">📷 Câmera: sorri, aponta pra câmera</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg6')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg6">Como eu monto uma estratégia de marketing do zero para cada cliente novo 🎯
+
+5 passos que uso sempre:
+
+📋 1. Diagnóstico completo
+Antes de qualquer coisa: onde o negócio está hoje? Métricas, concorrentes, pontos fracos e fortes.
+
+👤 2. Avatar do cliente ideal
+Quem é, quais são as dores reais, onde passa o tempo, o que já tentou e não funcionou.
+
+🎯 3. Posicionamento claro
+Por que o cliente escolhe você e não o concorrente? Se você não souber responder, o cliente também não vai saber.
+
+📱 4. Canais certos
+Não tenta estar em todo lugar. Foca onde seu cliente já está e onde você consegue ser consistente.
+
+📊 5. Metas e KPIs antes de começar
+Sem meta clara, você não sabe se está ganhando. Define CPL, CPA, ROAS ou crescimento orgânico — mas define.
+
+Estratégia sem diagnóstico é chute.
+Chute sem meta é desperdício.
+
+Salva esse post 💾 e aplica no seu negócio.</div>
+      <div class="hash-box">#estrategiademarketing #marketingdozero #planejamentodemarketing #gestaomarketing #dicasdemarketing #marketingdigital #marketingstrategy #marketingnobrasil #planejamento #negociosdigitais</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(5)">← Reel 05</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(7)">Reel 07 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 07 -->
+  <div class="reel-page" id="reel-7">
+    <div class="reel-header">
+      <div class="reel-num-big">07</div>
+      <div class="reel-meta">
+        <div class="reel-theme">💬 Opinião — Marca pessoal</div>
+        <div class="reel-title-big">Por que a maioria dos profissionais de marketing nunca chega a diretor</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 50–60 seg</span>
+          <span class="badge badge-pink">alto engajamento</span>
+          <span class="badge badge-green">marca pessoal forte</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"Sabe por que a maioria dos profissionais de marketing fica preso no operacional e nunca chega a diretor? Eu vivi isso e vou te contar o que muda."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Por que poucos chegam a Diretor de Marketing? 🤔"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, tom de quem vai revelar algo</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–22 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">❌ O PROBLEMA</div>
+          <div class="cena-fala">"O profissional mediano foca em executar bem a tarefa. Entrega o post, roda o anúncio, faz o relatório. Isso é importante, mas não te leva pra cima. O que te leva pra cima é quando você começa a pensar como o dono do negócio — em resultado, em crescimento, em impacto."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Executar bem ≠ crescer na carreira"</div>
+          <div class="cena-cam">📷 Câmera: gesticula, expressão firme</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">22–45 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ A VIRADA</div>
+          <div class="cena-fala">"A virada acontece quando você começa a falar a língua do CEO: ROI, margem, crescimento de receita. Quando você deixa de entregar tarefa e começa a apresentar solução. Quando você não espera mandar — você propõe."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Fale a língua do CEO: ROI, receita, crescimento 📈"</div>
+          <div class="cena-cam">📷 Câmera: mesmo enquadramento, cortes entre frases</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">45–57 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎯 CTA</div>
+          <div class="cena-fala">"Se você está nessa transição agora, me conta nos comentários — qual é o maior obstáculo que você enfrenta pra crescer na carreira de marketing?"</div>
+          <div class="cena-tela">TEXTO NA TELA: "Qual seu maior obstáculo? Comenta 👇"</div>
+          <div class="cena-cam">📷 Câmera: olha direto, tom acolhedor</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg7')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg7">A maioria dos profissionais de marketing fica presa no operacional a vida toda.
+
+Não porque falta talento. Falta mudança de mentalidade.
+
+O profissional que não cresce:
+❌ Foca em executar bem a tarefa
+❌ Entrega o que foi pedido
+❌ Espera direcionamento
+❌ Pensa em campanhas, não em negócio
+
+O profissional que chega a diretor:
+✅ Fala a língua do CEO: ROI, receita, margem
+✅ Propõe soluções antes de ser pedido
+✅ Pensa em crescimento, não em entrega
+✅ Conecta marketing com resultado do negócio
+
+A transição não acontece com um curso.
+Acontece quando você muda o que você prioriza.
+
+Você está em qual fase agora?
+Me conta nos comentários 👇</div>
+      <div class="hash-box">#carreiramarketing #directormarketing #crescimentoprofissional #marketingdeverdade #marcapessoal #lideranca #profissionaldemarketing #gestaomarketing #carreira #desenvolvimentoprofissional</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(6)">← Reel 06</button>
+      <button class="nav-reel-btn next" onclick="showReelNext(8)">Reel 08 →</button>
+    </div>
+  </div>
+
+  <!-- REEL 08 -->
+  <div class="reel-page" id="reel-8">
+    <div class="reel-header">
+      <div class="reel-num-big">08</div>
+      <div class="reel-meta">
+        <div class="reel-theme">🧠 Autoridade — Resultado rápido</div>
+        <div class="reel-title-big">O que aprendi errando em uma campanha de R$100 mil</div>
+        <div class="reel-badges">
+          <span class="badge badge-purple">⏱ 55–60 seg</span>
+          <span class="badge badge-green">conexão emocional</span>
+          <span class="badge badge-pink">muito compartilhável</span>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-purple">📋 Roteiro cena por cena</div>
+      <div class="cena">
+        <div class="cena-time">0–3 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">🎣 HOOK</div>
+          <div class="cena-fala">"Gerenciei uma campanha de R$100 mil. Ela falhou. E foi o melhor aprendizado da minha carreira."</div>
+          <div class="cena-tela">TEXTO NA TELA: "R$100 mil em campanha. E falhou. 😬"</div>
+          <div class="cena-cam">📷 Câmera: rosto próximo, tom sério e honesto</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">3–18 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">😬 O ERRO</div>
+          <div class="cena-fala">"Pulamos a fase de diagnóstico. O cliente queria resultado rápido, a pressão era grande, e eu deixei a urgência me fazer pular o mais importante: entender de verdade quem era o cliente ideal."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Erro: pulamos o diagnóstico por pressão ⚠️"</div>
+          <div class="cena-cam">📷 Câmera: expressão honesta, sem esconder</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">18–40 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">💥 O IMPACTO</div>
+          <div class="cena-fala">"Resultado: anúncio certo para o público errado. Verba gasta, conversão zero, cliente insatisfeito. Tivemos que pausar tudo e recomeçar do zero — agora com o diagnóstico feito direito."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Público errado = verba desperdiçada 💸"</div>
+          <div class="cena-cam">📷 Câmera: pode balançar a cabeça, mostrar peso do erro</div>
+        </div>
+      </div>
+      <div class="cena">
+        <div class="cena-time">40–57 seg</div>
+        <div class="cena-content">
+          <div class="cena-label">✅ APRENDIZADO + CTA</div>
+          <div class="cena-fala">"O aprendizado: velocidade sem diagnóstico é desperdício. Hoje eu recuso projeto que não me deixa fazer o diagnóstico antes. Qual foi o maior erro de marketing que você já cometeu? Me conta nos comentários — sem julgamento aqui."</div>
+          <div class="cena-tela">TEXTO NA TELA: "Velocidade sem diagnóstico = desperdício 🎯"</div>
+          <div class="cena-cam">📷 Câmera: tom acolhedor no final, sorri</div>
+        </div>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block-label label-pink">✍️ Legenda pronta <button class="copy-btn" onclick="copyText('leg8')">📋 Copiar</button></div>
+      <div class="legenda-box" id="leg8">Gerenciei uma campanha de R$100 mil. Ela falhou. E foi o melhor aprendizado da minha carreira.
+
+O erro foi meu.
+
+O que aconteceu:
+⚠️ Cliente com urgência, pressão por resultado rápido
+⚠️ Pulamos a fase de diagnóstico para "ganhar tempo"
+⚠️ Criamos o anúncio certo para o público errado
+⚠️ Verba gasta. Conversão zero. Cliente insatisfeito.
+
+Tivemos que pausar tudo e recomeçar do zero.
+
+O que aprendi:
+✅ Urgência nunca justifica pular o diagnóstico
+✅ Anúncio perfeito para público errado = zero resultado
+✅ Hoje recuso projeto que não me deixa fazer diagnóstico antes
+✅ Velocidade sem estratégia é o desperdício mais caro
+
+O erro mais caro não é o que você comete depois de tentar.
+É o que você comete por pular etapas.
+
+Qual foi o maior erro de marketing que você já cometeu?
+Me conta nos comentários — sem julgamento aqui 👇</div>
+      <div class="hash-box">#errosdemarketing #aprendizado #marketingdeverdade #gestaomarketing #dicasmarketing #campanhademarketing #marketingdigital #licoesdemarketing #crescimentoprofissional #marketingnobrasil</div>
+    </div>
+    <div class="reel-nav-btns">
+      <button class="nav-reel-btn" onclick="showReelNext(7)">← Reel 07</button>
+      <button class="nav-reel-btn" onclick="showReelNext(1)" style="color:var(--green);border-color:rgba(29,233,160,0.4)">↩ Voltar ao início</button>
+    </div>
+  </div>
+
+</main>
+
+<script>
+function showReel(n, btn) {
+  document.querySelectorAll('.reel-page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.reel-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('reel-' + n).classList.add('active');
+  if (btn) btn.classList.add('active');
+  else document.querySelectorAll('.reel-btn')[n-1].classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function showReelNext(n) {
+  showReel(n, document.querySelectorAll('.reel-btn')[n-1]);
+}
+
+function copyText(id) {
+  const el = document.getElementById(id);
+  const hash = document.getElementById(id.replace('leg','hash'));
+  const text = el.innerText + (hash ? '\n\n' + hash.innerText : '');
+  navigator.clipboard.writeText(text).then(() => {
+    const btn = el.previousElementSibling.querySelector('.copy-btn');
+    if (btn) { btn.textContent = '✅ Copiado!'; btn.classList.add('copied'); setTimeout(() => { btn.textContent = '📋 Copiar'; btn.classList.remove('copied'); }, 2000); }
+  });
+}
+</script>
+</body>
+</html>

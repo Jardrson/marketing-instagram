@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Planejamento de Conteúdo — @jacson_dreams</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0d0d12;--surface:#16151e;--surface2:#1e1d28;
+  --border:rgba(255,255,255,0.08);--text:#f0eeff;--muted:rgba(240,238,255,0.45);
+  --accent:#b06aff;--accent2:#ff5fcb;--green:#1de9a0;--amber:#ffb830;--blue:#4db8ff;
+  --radius:16px;
+}
+html,body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.6;min-height:100vh}
+
+header{display:flex;align-items:center;gap:12px;padding:14px 24px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--bg);z-index:100;flex-wrap:wrap}
+.logo{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.header-title{font-family:'Syne',sans-serif;font-size:14px;font-weight:700}
+.header-sub{font-size:11px;color:var(--muted)}
+.nav{display:flex;gap:4px;margin-left:auto;flex-wrap:wrap;justify-content:flex-end}
+.nav-btn{background:none;border:1px solid transparent;border-radius:99px;padding:5px 11px;font-size:11px;color:var(--muted);cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;white-space:nowrap}
+.nav-btn:hover{color:var(--text)}
+.nav-btn.active{background:rgba(176,106,255,0.15);border-color:rgba(176,106,255,0.4);color:var(--accent)}
+@media(max-width:700px){header{flex-direction:column;align-items:flex-start}.nav{margin-left:0;width:100%}}
+
+main{max-width:900px;margin:0 auto;padding:32px 24px 80px}
+
+.page{display:none}.page.active{display:block}
+
+/* Hero */
+.hero{text-align:center;padding:48px 0 40px}
+.hero h1{font-family:'Syne',sans-serif;font-size:clamp(28px,5vw,52px);font-weight:800;line-height:1.1;margin-bottom:12px}
+.hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{color:var(--muted);font-size:14px;max-width:480px;margin:0 auto}
+
+/* Section */
+.sec-label{font-size:11px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.1em;margin:32px 0 14px}
+
+/* Pillar cards */
+.pillars{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:8px}
+.pillar{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px;transition:border-color 0.2s}
+.pillar:hover{border-color:rgba(176,106,255,0.4)}
+.pillar-icon{font-size:28px;margin-bottom:10px}
+.pillar-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:800;margin-bottom:6px}
+.pillar-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.pillar-pct{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:99px;margin-top:10px}
+.p1 .pillar-pct{background:rgba(176,106,255,0.15);color:var(--accent)}
+.p2 .pillar-pct{background:rgba(29,233,160,0.1);color:var(--green)}
+.p3 .pillar-pct{background:rgba(255,95,203,0.15);color:var(--accent2)}
+.p4 .pillar-pct{background:rgba(255,184,48,0.15);color:var(--amber)}
+
+/* Weekly grid */
+.week-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px}
+@media(max-width:650px){.week-grid{grid-template-columns:repeat(2,1fr)}}
+.day-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:14px 12px}
+.day-name{font-size:10px;font-weight:700;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+.day-format{font-size:11px;font-weight:600;padding:2px 8px;border-radius:99px;display:inline-block;margin-bottom:8px}
+.fmt-reels{background:rgba(255,95,203,0.15);color:var(--accent2)}
+.fmt-carrossel{background:rgba(176,106,255,0.15);color:var(--accent)}
+.fmt-foto{background:rgba(29,233,160,0.1);color:var(--green)}
+.fmt-stories{background:rgba(255,184,48,0.15);color:var(--amber)}
+.fmt-live{background:rgba(77,184,255,0.15);color:var(--blue)}
+.day-tema{font-size:12px;color:var(--text);line-height:1.5;margin-bottom:6px}
+.day-hora{font-size:11px;color:var(--green);font-weight:600}
+.day-rest{background:rgba(255,255,255,0.03);border-radius:8px;padding:8px;text-align:center;font-size:11px;color:var(--muted)}
+
+/* Reels guide */
+.reels-list{display:flex;flex-direction:column;gap:12px}
+.reel-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;display:flex;gap:16px;align-items:flex-start}
+.reel-num{font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:var(--accent);min-width:40px;line-height:1}
+.reel-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:6px}
+.reel-body{font-size:13px;color:var(--muted);line-height:1.65}
+.reel-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.reel-tag{font-size:11px;background:rgba(176,106,255,0.1);color:var(--accent);border:1px solid rgba(176,106,255,0.2);padding:2px 10px;border-radius:99px}
+.reel-time{font-size:11px;color:var(--green);font-weight:600;margin-top:8px}
+
+/* Caption templates */
+.caption-cards{display:flex;flex-direction:column;gap:12px}
+.caption-card{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px}
+.caption-type{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--accent2);margin-bottom:10px}
+.caption-title{font-size:14px;font-weight:600;color:var(--text);margin-bottom:10px}
+.caption-body{font-size:13px;color:var(--muted);line-height:1.8;white-space:pre-line;background:var(--surface2);border-radius:10px;padding:14px 16px;border-left:3px solid var(--accent)}
+.caption-hash{font-size:11px;color:var(--green);margin-top:10px;line-height:1.8}
+
+/* Hashtag strategy */
+.hash-groups{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.hash-group{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px 20px}
+.hash-group-name{font-size:12px;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px}
+.hash-list{font-size:12px;color:var(--muted);line-height:2}
+.hash-list span{color:var(--green)}
+
+/* Action plan */
+.action-timeline{display:flex;flex-direction:column;gap:0}
+.action-week{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border);position:relative}
+.action-week:last-child{border-bottom:none}
+.action-week-label{font-family:'Syne',sans-serif;font-size:13px;font-weight:800;color:var(--accent);min-width:80px;padding-top:2px}
+.action-items{flex:1}
+.action-item{display:flex;gap:10px;margin-bottom:10px;align-items:flex-start;font-size:13px}
+.action-item:last-child{margin-bottom:0}
+.action-dot{width:8px;height:8px;border-radius:50%;margin-top:5px;flex-shrink:0}
+.dot-green{background:var(--green)}
+.dot-purple{background:var(--accent)}
+.dot-pink{background:var(--accent2)}
+.dot-amber{background:var(--amber)}
+.action-text{color:var(--text);line-height:1.5}
+.action-text strong{color:var(--accent2)}
+
+/* AI Generator */
+.ai-box{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;margin-bottom:24px}
+.ai-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
+.ai-avatar{width:40px;height:40px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.ai-title{font-family:'Syne',sans-serif;font-size:15px;font-weight:800}
+.ai-sub{font-size:12px;color:var(--muted)}
+.ai-presets{display:flex;flex-wrap:wrap;gap:8px;padding:16px 24px;border-bottom:1px solid var(--border)}
+.preset-btn{background:rgba(176,106,255,0.1);border:1px solid rgba(176,106,255,0.25);color:var(--accent);font-size:12px;padding:6px 14px;border-radius:99px;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s}
+.preset-btn:hover{background:rgba(176,106,255,0.2)}
+.ai-output{padding:20px 24px;min-height:120px;font-size:14px;color:var(--text);line-height:1.7}
+.ai-output.empty{color:var(--muted);font-style:italic}
+.ai-input-row{display:flex;gap:10px;padding:16px 24px;border-top:1px solid var(--border)}
+.ai-input{flex:1;background:var(--surface2);border:1px solid var(--border);border-radius:99px;padding:10px 18px;color:var(--text);font-family:'Inter',sans-serif;font-size:14px;outline:none}
+.ai-input:focus{border-color:rgba(176,106,255,0.5)}
+.ai-input::placeholder{color:var(--muted)}
+.ai-send{background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:50%;width:40px;height:40px;cursor:pointer;font-size:16px;flex-shrink:0;transition:opacity 0.2s}
+.ai-send:hover{opacity:.85}
+.ai-send:disabled{opacity:.4;cursor:not-allowed}
+.typing{display:flex;gap:5px;align-items:center;padding:8px 0}
+.typing span{width:7px;height:7px;border-radius:50%;background:var(--accent);animation:bounce 1.2s infinite}
+.typing span:nth-child(2){animation-delay:.2s}
+.typing span:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-6px);opacity:1}}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">✦</div>
+  <div>
+    <div class="header-title">@jacson_dreams — Planejamento de Conteúdo</div>
+    <div class="header-sub">Diretor de Marketing · Powered by IA</div>
+  </div>
+  <nav class="nav">
+    <button class="nav-btn active" onclick="showPage('pilares')">🎯 Pilares</button>
+    <button class="nav-btn" onclick="showPage('semana')">📅 Semana</button>
+    <button class="nav-btn" onclick="showPage('reels')">🎬 Reels</button>
+    <button class="nav-btn" onclick="showPage('legendas')">✍️ Legendas</button>
+    <button class="nav-btn" onclick="showPage('hashtags')">#️⃣ Hashtags</button>
+    <button class="nav-btn" onclick="showPage('plano')">🚀 Plano 30d</button>
+    <button class="nav-btn" onclick="showPage('ia')">🤖 Gerar com IA</button>
+  </nav>
+  <div class="psw" id="psw">
+    <button class="psw-btn" onclick="toggleDrop()" title="Trocar perfil">
+      <div class="hline"></div>
+      <div class="hline"></div>
+      <div class="hline"></div>
+    </button>
+    <div class="pdropdown">
+      <div class="pdrop-label">Selecionar perfil</div>
+      <div id="plist"></div>
+      <div class="pdivider"></div>
+      <div class="padd" onclick="openModal()">
+        <span class="padd-plus">+</span> Novo cliente
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="moverlay" id="moverlay">
+  <div class="mbox">
+    <div class="mbox-icon">&#128100;</div>
+    <h3>Novo perfil de cliente</h3>
+    <p>Preencha os dados do cliente para personalizar o planejamento de conteúdo.</p>
+    <div class="minput-wrap">
+      <label class="minput-label">Username do Instagram</label>
+      <input class="minput" id="mhandle" placeholder="@username" />
+    </div>
+    <div class="minput-wrap">
+      <label class="minput-label">Nome ou empresa</label>
+      <input class="minput" id="mname" placeholder="Ex: Loja XYZ, Maria Silva..." />
+    </div>
+    <div class="minput-wrap">
+      <label class="minput-label">Nicho / segmento</label>
+      <input class="minput" id="mnicho" placeholder="Ex: E-commerce de moda, Consultório, Restaurante..." />
+    </div>
+    <div class="minput-wrap">
+      <label class="minput-label">Objetivo principal</label>
+      <input class="minput" id="mobjetivo" placeholder="Ex: Vender mais, crescer seguidores, autoridade..." />
+    </div>
+    <div class="mbtns">
+      <button class="mcancel" onclick="closeModal()">Cancelar</button>
+      <button class="mconfirm" onclick="addProfile()">&#10022; Criar planejamento</button>
+    </div>
+  </div>
+</div>
+
+<main>
+
+<!-- PILARES -->
+<div class="page active" id="page-pilares">
+  <div class="hero">
+    <h1>Seus pilares de<br><span>conteúdo</span></h1>
+    <div class="ctx-badge" id="ctx-badge">&#10022; <span id="ctx-name">@jacson_dreams — Minha conta</span></div>
+    <p id="hero-desc">Como Diretor de Marketing, seu conteúdo deve construir autoridade, educar e engajar. Estes são os 4 pilares da sua estratégia.</p>
+  </div>
+  <p class="sec-label">Os 4 pilares estratégicos</p>
+  <div class="pillars">
+    <div class="pillar p1">
+      <div class="pillar-icon">🧠</div>
+      <div class="pillar-name">Autoridade & Conhecimento</div>
+      <div class="pillar-desc">Dicas, tendências, dados de mercado, bastidores de estratégias reais. Você como referência em marketing.</div>
+      <span class="pillar-pct">40% do conteúdo</span>
+    </div>
+    <div class="pillar p2">
+      <div class="pillar-icon">📈</div>
+      <div class="pillar-name">Cases & Resultados</div>
+      <div class="pillar-desc">Histórias de sucesso, números reais, transformações de clientes, erros e aprendizados do mercado.</div>
+      <span class="pillar-pct">25% do conteúdo</span>
+    </div>
+    <div class="pillar p3">
+      <div class="pillar-icon">🎯</div>
+      <div class="pillar-name">Bastidores & Rotina</div>
+      <div class="pillar-desc">Seu dia a dia como diretor, processos de trabalho, ferramentas que usa, tomada de decisão.</div>
+      <span class="pillar-pct">20% do conteúdo</span>
+    </div>
+    <div class="pillar p4">
+      <div class="pillar-icon">🔥</div>
+      <div class="pillar-name">Tendências & Opinião</div>
+      <div class="pillar-desc">Sua visão sobre novidades do mercado, posicionamento, polêmicas do marketing, previsões.</div>
+      <span class="pillar-pct">15% do conteúdo</span>
+    </div>
+  </div>
+
+  <p class="sec-label">Formatos por pilar</p>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:10px">🧠 Autoridade → use Reels + Carrossel</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">• "3 erros de marketing que custam clientes"<br>• "A estratégia que triplicou o ROI do cliente X"<br>• "Como criar uma campanha do zero"<br>• Dados de mercado comentados</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:10px">📈 Cases → use Carrossel + Foto</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">• Antes e depois de campanhas<br>• Prints de resultados (com permissão)<br>• "O que aprendi com esse fracasso"<br>• Depoimentos de clientes</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:10px">🎯 Bastidores → use Reels + Stories</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">• Tour pelo escritório/home office<br>• "Um dia na minha vida como diretor"<br>• Ferramentas do dia a dia<br>• Reuniões e processos (sem dados sigilosos)</div>
+      </div>
+      <div>
+        <div style="font-size:12px;font-weight:600;color:var(--amber);margin-bottom:10px">🔥 Tendências → use Reels curto + Stories</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.8">• Opinião sobre novidade do mercado<br>• "Minha visão sobre IA no marketing"<br>• Reação a notícias do setor<br>• Previsões para o próximo trimestre</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- SEMANA -->
+<div class="page" id="page-semana">
+  <div class="hero">
+    <h1>Grade semanal de<br><span>publicações</span></h1>
+    <p>Baseado nos seus dados: você posta mais à noite (20–23h) e tem mais atividade nas sextas. Esta grade respeita seu tempo de 30–60 min/dia.</p>
+  </div>
+  <p class="sec-label">Distribuição semanal — 7 posts + Stories diários</p>
+  <div class="week-grid">
+    <div class="day-card">
+      <div class="day-name">Segunda</div>
+      <span class="day-format fmt-carrossel">Carrossel</span>
+      <div class="day-tema">Dica de marketing em 5 slides — conteúdo educativo</div>
+      <div class="day-hora">⏰ 19h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Terça</div>
+      <span class="day-format fmt-stories">Stories</span>
+      <div class="day-tema">Bastidores do dia, enquete, caixa de perguntas</div>
+      <div class="day-hora">⏰ 20h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Quarta</div>
+      <span class="day-format fmt-reels">Reels</span>
+      <div class="day-tema">Dica rápida de marketing em até 60 segundos</div>
+      <div class="day-hora">⏰ 19h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Quinta</div>
+      <span class="day-format fmt-carrossel">Carrossel</span>
+      <div class="day-tema">Case de sucesso ou resultado com números</div>
+      <div class="day-hora">⏰ 20h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Sexta</div>
+      <span class="day-format fmt-reels">Reels</span>
+      <div class="day-tema">Tendência ou opinião forte sobre o mercado</div>
+      <div class="day-hora">⏰ 18h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Sábado</div>
+      <span class="day-format fmt-foto">Foto</span>
+      <div class="day-tema">Bastidores pessoais ou frase de impacto</div>
+      <div class="day-hora">⏰ 11h</div>
+    </div>
+    <div class="day-card">
+      <div class="day-name">Domingo</div>
+      <div class="day-rest">🔋 Descanso<br><span style="font-size:10px;color:var(--muted)">Só Stories se quiser</span></div>
+    </div>
+  </div>
+
+  <p class="sec-label">Regra de ouro dos Stories — todo dia</p>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px">
+      <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:12px">
+        <div style="font-size:24px;margin-bottom:8px">☀️</div>
+        <div style="font-size:12px;font-weight:600;color:var(--text)">Manhã (8–9h)</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Bom dia + frase do dia ou notícia do mercado</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:12px">
+        <div style="font-size:24px;margin-bottom:8px">📊</div>
+        <div style="font-size:12px;font-weight:600;color:var(--text)">Tarde (13–14h)</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Bastidores do trabalho, processo ou ferramenta</div>
+      </div>
+      <div style="text-align:center;padding:16px;background:var(--surface2);border-radius:12px">
+        <div style="font-size:24px;margin-bottom:8px">🌙</div>
+        <div style="font-size:12px;font-weight:600;color:var(--text)">Noite (20–21h)</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Enquete, caixa de perguntas ou reflexão do dia</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REELS -->
+<div class="page" id="page-reels">
+  <div class="hero">
+    <h1>Guia completo de<br><span>Reels</span></h1>
+    <p>Reels são o maior motor de crescimento orgânico do Instagram. Como Diretor de Marketing, você tem autoridade para criar conteúdo que viraliza.</p>
+  </div>
+
+  <p class="sec-label">Estrutura que funciona — todo Reel seu deve seguir isso</p>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px;margin-bottom:24px">
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--surface2);border-radius:10px">
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent);min-width:32px">01</div>
+        <div><div style="font-size:13px;font-weight:600;color:var(--text)">Hook (0–3 seg) — A frase que prende</div><div style="font-size:12px;color:var(--muted)">"O erro que 90% dos gestores cometem…" / "Como eu fechei R$50k com uma campanha de R$500"</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--surface2);border-radius:10px">
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--accent2);min-width:32px">02</div>
+        <div><div style="font-size:13px;font-weight:600;color:var(--text)">Problema (3–8 seg) — Contextualiza a dor</div><div style="font-size:12px;color:var(--muted)">Mostre que você entende o problema do espectador antes de dar a solução</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--surface2);border-radius:10px">
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--green);min-width:32px">03</div>
+        <div><div style="font-size:13px;font-weight:600;color:var(--text)">Conteúdo (8–50 seg) — O valor real</div><div style="font-size:12px;color:var(--muted)">Entregue a dica, case ou opinião. Seja direto. Use cortes rápidos e legendas no vídeo.</div></div>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center;padding:12px;background:var(--surface2);border-radius:10px">
+        <div style="font-family:'Syne',sans-serif;font-size:20px;font-weight:800;color:var(--amber);min-width:32px">04</div>
+        <div><div style="font-size:13px;font-weight:600;color:var(--text)">CTA (últimos 3 seg) — Chama para ação</div><div style="font-size:12px;color:var(--muted)">"Salva esse vídeo" / "Me segue para mais dicas" / "Comenta o que achou"</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">20 ideias de Reels prontas para gravar</p>
+  <div class="reels-list">
+    <div class="reel-card">
+      <div class="reel-num">01</div>
+      <div>
+        <div class="reel-title">3 erros de marketing digital que estão matando suas vendas</div>
+        <div class="reel-body">Mostre os 3 erros na tela em texto + fala. Use cortes rápidos. Comece com "Se você está fazendo isso, para AGORA".</div>
+        <div class="reel-time">⏱ 45–60 segundos · Pilar: Autoridade</div>
+        <div class="reel-tags"><span class="reel-tag">alto potencial viral</span><span class="reel-tag">educativo</span><span class="reel-tag">salvar muito</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">02</div>
+      <div>
+        <div class="reel-title">Como eu aumentei o tráfego de um cliente em 300% sem pagar anúncio</div>
+        <div class="reel-body">Case real com números. Mostre o antes/depois. Explique a estratégia em passos rápidos.</div>
+        <div class="reel-time">⏱ 60 segundos · Pilar: Cases</div>
+        <div class="reel-tags"><span class="reel-tag">prova social</span><span class="reel-tag">autoridade</span><span class="reel-tag">compartilhável</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">03</div>
+      <div>
+        <div class="reel-title">Minha rotina de Diretor de Marketing (dia real)</div>
+        <div class="reel-body">POV do seu dia: reuniões, análise de dados, decisões. Humaniza sua imagem e gera identificação.</div>
+        <div class="reel-time">⏱ 30–45 segundos · Pilar: Bastidores</div>
+        <div class="reel-tags"><span class="reel-tag">bastidores</span><span class="reel-tag">humanização</span><span class="reel-tag">fácil de gravar</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">04</div>
+      <div>
+        <div class="reel-title">A verdade sobre influencer marketing que ninguém fala</div>
+        <div class="reel-body">Opinião forte e polêmica (com embasamento). Gera debate nos comentários = mais alcance.</div>
+        <div class="reel-time">⏱ 45 segundos · Pilar: Tendências</div>
+        <div class="reel-tags"><span class="reel-tag">polêmico</span><span class="reel-tag">opinião</span><span class="reel-tag">comentários</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">05</div>
+      <div>
+        <div class="reel-title">5 ferramentas de marketing que uso todo dia (e são gratuitas)</div>
+        <div class="reel-body">Liste as ferramentas com logo na tela. Muito compartilhável. Peça para salvar.</div>
+        <div class="reel-time">⏱ 60 segundos · Pilar: Autoridade</div>
+        <div class="reel-tags"><span class="reel-tag">muito salvável</span><span class="reel-tag">prático</span><span class="reel-tag">compartilhável</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">06</div>
+      <div>
+        <div class="reel-title">Como criar um briefing perfeito em 10 minutos</div>
+        <div class="reel-body">Tutorial rápido com tela do computador ou anotações. Muito útil para gestores e donos de negócio.</div>
+        <div class="reel-time">⏱ 60 segundos · Pilar: Autoridade</div>
+        <div class="reel-tags"><span class="reel-tag">tutorial</span><span class="reel-tag">prático</span><span class="reel-tag">salvar</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">07</div>
+      <div>
+        <div class="reel-title">O que aprendi errando em uma campanha de R$100k</div>
+        <div class="reel-body">Vulnerabilidade gera conexão. Mostre o erro, o impacto e o aprendizado. Muito poderoso para autoridade.</div>
+        <div class="reel-time">⏱ 60 segundos · Pilar: Cases</div>
+        <div class="reel-tags"><span class="reel-tag">vulnerabilidade</span><span class="reel-tag">conexão</span><span class="reel-tag">autoridade</span></div>
+      </div>
+    </div>
+    <div class="reel-card">
+      <div class="reel-num">08</div>
+      <div>
+        <div class="reel-title">IA vai substituir o profissional de marketing? Minha opinião real</div>
+        <div class="reel-body">Tema quente. Dê sua visão com embasamento. Gera debate e compartilhamentos.</div>
+        <div class="reel-time">⏱ 45–60 segundos · Pilar: Tendências</div>
+        <div class="reel-tags"><span class="reel-tag">trending</span><span class="reel-tag">debate</span><span class="reel-tag">viral</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LEGENDAS -->
+<div class="page" id="page-legendas">
+  <div class="hero">
+    <h1>Templates de<br><span>legendas</span></h1>
+    <p>Seus dados mostram que apenas 13% dos posts têm legenda. Isso é uma oportunidade enorme — legendas bem feitas triplicam o engajamento.</p>
+  </div>
+
+  <p class="sec-label">Templates prontos — copie, adapte e publique</p>
+  <div class="caption-cards">
+    <div class="caption-card">
+      <div class="caption-type">🧠 Autoridade — Dica rápida</div>
+      <div class="caption-title">Estrutura: Afirmação forte + Contexto + Lista + CTA</div>
+      <div class="caption-body">A maioria das campanhas falha antes de começar.
+
+Sabe por quê? Porque pulam o mais importante: o diagnóstico.
+
+Antes de qualquer estratégia, você precisa saber:
+→ Quem é seu cliente de verdade (não quem você acha que é)
+→ Onde ele passa o tempo online
+→ Qual é a dor que mantém ele acordado às 3h da manhã
+→ O que ele já tentou e não funcionou
+
+Com essas respostas, sua campanha quase se escreve sozinha.
+
+Salva esse post e aplica antes da sua próxima campanha. 👇</div>
+      <div class="caption-hash">#marketingdigital #estrategiademarketing #gestaomarketing #directormarketing #marketingnobrasil #marketingecommerce #gestaocomercial</div>
+    </div>
+
+    <div class="caption-card">
+      <div class="caption-type">📈 Case de resultado</div>
+      <div class="caption-title">Estrutura: Número impactante + Contexto + O que foi feito + Aprendizado</div>
+      <div class="caption-body">R$ 0 em anúncios. 312% de crescimento orgânico.
+
+Esse foi o resultado de um cliente que chegou dizendo que "marketing orgânico não funciona".
+
+O que fizemos em 90 dias:
+✅ Reformulamos o posicionamento
+✅ Criamos conteúdo educativo 3x por semana
+✅ Ativamos uma estratégia de SEO local
+✅ Treinamos o time para responder comentários em até 1h
+
+O maior aprendizado? Consistência bate investimento.
+
+Qual a sua maior dificuldade com marketing orgânico? Comenta aqui. 👇</div>
+      <div class="caption-hash">#resultadosreais #marketingorgânico #casodesucesso #crescimentodigital #estrategiadeconteudo #marketingmarketing</div>
+    </div>
+
+    <div class="caption-card">
+      <div class="caption-type">🎯 Bastidores — Humanização</div>
+      <div class="caption-title">Estrutura: Cena do dia + Reflexão + Pergunta para audiência</div>
+      <div class="caption-body">8h da manhã. Terceira reunião do dia. Dois clientes esperando retorno.
+
+Ser Diretor de Marketing é isso: decisão atrás de decisão, o dia todo.
+
+O que ninguém mostra é que por trás de cada campanha "perfeita" existem horas de análise, testes que não funcionaram e ajustes de última hora.
+
+Mas é exatamente isso que faz a diferença entre quem executa e quem só planeja.
+
+E você? O que está sendo difícil no seu negócio agora? Me conta nos comentários. 👇</div>
+      <div class="caption-hash">#bastidores #directormarketing #rotinademarketing #liderança #marketingdeverdade #empreendedorismo</div>
+    </div>
+
+    <div class="caption-card">
+      <div class="caption-type">🔥 Opinião forte — Engajamento</div>
+      <div class="caption-title">Estrutura: Afirmação polêmica + Argumento + Convite ao debate</div>
+      <div class="caption-body">Opinião impopular: a maioria dos "especialistas em marketing" nunca gerenciou uma campanha de verdade.
+
+Vi isso acontecer dezenas de vezes: profissional com certificado, portfólio bonito, mas que nunca lidou com cliente nervoso, budget cortado na última hora ou campanha que não converte.
+
+Marketing se aprende na prática. Teoria sem execução é só conteúdo de LinkedIn.
+
+Concorda ou discorda? Me diz nos comentários — quero debate real aqui. 👇</div>
+      <div class="caption-hash">#opiniaomarketing #marketingdeverdade #gestaomarketing #profissionaldemarketing #marketingdigital</div>
+    </div>
+  </div>
+</div>
+
+<!-- HASHTAGS -->
+<div class="page" id="page-hashtags">
+  <div class="hero">
+    <h1>Estratégia de<br><span>hashtags</span></h1>
+    <p>Use sempre de 8 a 15 hashtags por post. Misture hashtags grandes, médias e pequenas para maximizar o alcance.</p>
+  </div>
+
+  <p class="sec-label">Grupos por tipo de conteúdo — copie e cole</p>
+  <div class="hash-groups">
+    <div class="hash-group">
+      <div class="hash-group-name">🧠 Autoridade / Dicas</div>
+      <div class="hash-list">
+        <span>#marketingdigital</span><br>
+        <span>#estrategiademarketing</span><br>
+        <span>#dicasdemarketing</span><br>
+        <span>#marketingnobrasil</span><br>
+        <span>#gestaomarketing</span><br>
+        <span>#marketingdeconteudo</span><br>
+        <span>#inboundmarketing</span><br>
+        <span>#marketingonline</span>
+      </div>
+    </div>
+    <div class="hash-group">
+      <div class="hash-group-name">📈 Cases / Resultados</div>
+      <div class="hash-list">
+        <span>#resultadosreais</span><br>
+        <span>#casodesucesso</span><br>
+        <span>#crescimentodigital</span><br>
+        <span>#marketingresultados</span><br>
+        <span>#roi</span><br>
+        <span>#conversao</span><br>
+        <span>#vendasonline</span><br>
+        <span>#negociosdigitais</span>
+      </div>
+    </div>
+    <div class="hash-group">
+      <div class="hash-group-name">🎯 Marca Pessoal</div>
+      <div class="hash-list">
+        <span>#marcapessoal</span><br>
+        <span>#directormarketing</span><br>
+        <span>#liderançamarketing</span><br>
+        <span>#profissionaldemarketing</span><br>
+        <span>#carreiramarketing</span><br>
+        <span>#liderança</span><br>
+        <span>#gestao</span><br>
+        <span>#empreendedorismo</span>
+      </div>
+    </div>
+    <div class="hash-group">
+      <div class="hash-group-name">🔥 Tendências / Opinião</div>
+      <div class="hash-list">
+        <span>#iamarketing</span><br>
+        <span>#inteligenciaartificial</span><br>
+        <span>#futurodomarketing</span><br>
+        <span>#tendenciasmarketing</span><br>
+        <span>#marketingmoderno</span><br>
+        <span>#inovacao</span><br>
+        <span>#transformacaodigital</span><br>
+        <span>#tecnologia</span>
+      </div>
+    </div>
+    <div class="hash-group">
+      <div class="hash-group-name">🎬 Reels específico</div>
+      <div class="hash-list">
+        <span>#reelsmarketing</span><br>
+        <span>#reelsbrasil</span><br>
+        <span>#dicasrapidas</span><br>
+        <span>#aprendermarketing</span><br>
+        <span>#marketingreel</span><br>
+        <span>#dica</span><br>
+        <span>#aprendizado</span><br>
+        <span>#educacaodigital</span>
+      </div>
+    </div>
+    <div class="hash-group">
+      <div class="hash-group-name">🛒 E-commerce / Vendas</div>
+      <div class="hash-list">
+        <span>#marketingecommerce</span><br>
+        <span>#ecommercebrasil</span><br>
+        <span>#vendasonline</span><br>
+        <span>#lojaonline</span><br>
+        <span>#trafegopago</span><br>
+        <span>#google ads</span><br>
+        <span>#metaads</span><br>
+        <span>#gestaodetrafego</span>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Regra dos 3 tamanhos — use sempre essa combinação</p>
+  <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:20px 24px">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+      <div style="padding:16px;background:var(--surface2);border-radius:12px;border-left:3px solid var(--accent)">
+        <div style="font-size:12px;font-weight:600;color:var(--accent);margin-bottom:8px">GRANDES (+500k posts)</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">#marketingdigital<br>#empreendedorismo<br>#negocios<br>Use 3–4 por post</div>
+      </div>
+      <div style="padding:16px;background:var(--surface2);border-radius:12px;border-left:3px solid var(--accent2)">
+        <div style="font-size:12px;font-weight:600;color:var(--accent2);margin-bottom:8px">MÉDIAS (50k–500k)</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">#estrategiademarketing<br>#gestaomarketing<br>#marketingdeconteudo<br>Use 5–6 por post</div>
+      </div>
+      <div style="padding:16px;background:var(--surface2);border-radius:12px;border-left:3px solid var(--green)">
+        <div style="font-size:12px;font-weight:600;color:var(--green);margin-bottom:8px">PEQUENAS (–50k)</div>
+        <div style="font-size:13px;color:var(--muted);line-height:1.7">#directormarketing<br>#marketingnobrasil<br>#casodesucesso<br>Use 3–5 por post</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PLANO 30 DIAS -->
+<div class="page" id="page-plano">
+  <div class="hero">
+    <h1>Plano de ação<br><span>30 dias</span></h1>
+    <p>Um plano semana a semana para crescer sua autoridade, aumentar seguidores e construir sua marca como Diretor de Marketing.</p>
+  </div>
+
+  <p class="sec-label">Semana a semana — o que fazer</p>
+  <div class="action-timeline">
+    <div class="action-week">
+      <div class="action-week-label">Semana 1<br><span style="font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400">Fundação</span></div>
+      <div class="action-items">
+        <div class="action-item"><div class="action-dot dot-purple"></div><div class="action-text">Atualize a <strong>bio do Instagram</strong>: "Diretor de Marketing | Ajudo empresas a crescerem com estratégia | Dicas todo dia"</div></div>
+        <div class="action-item"><div class="action-dot dot-green"></div><div class="action-text">Crie seus <strong>primeiros 3 Reels</strong> usando as ideias 01, 03 e 05 deste planejamento</div></div>
+        <div class="action-item"><div class="action-dot dot-pink"></div><div class="action-text">Ative os <strong>Stories diários</strong>: manhã, tarde e noite conforme a grade</div></div>
+        <div class="action-item"><div class="action-dot dot-amber"></div><div class="action-text">Responda <strong>100% dos comentários</strong> — sinal para o algoritmo que seu conteúdo engaja</div></div>
+      </div>
+    </div>
+    <div class="action-week">
+      <div class="action-week-label">Semana 2<br><span style="font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400">Conteúdo</span></div>
+      <div class="action-items">
+        <div class="action-item"><div class="action-dot dot-purple"></div><div class="action-text">Publique seu <strong>primeiro Carrossel</strong> com dica de marketing em 5–7 slides</div></div>
+        <div class="action-item"><div class="action-dot dot-green"></div><div class="action-text">Grave um Reel de <strong>bastidores</strong> — um dia real como Diretor de Marketing</div></div>
+        <div class="action-item"><div class="action-dot dot-pink"></div><div class="action-text">Use a <strong>caixa de perguntas</strong> nos Stories e responda em vídeo — gera conexão</div></div>
+        <div class="action-item"><div class="action-dot dot-amber"></div><div class="action-text">Interaja com <strong>10 perfis do seu nicho</strong> por dia — comentários reais e relevantes</div></div>
+      </div>
+    </div>
+    <div class="action-week">
+      <div class="action-week-label">Semana 3<br><span style="font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400">Autoridade</span></div>
+      <div class="action-items">
+        <div class="action-item"><div class="action-dot dot-purple"></div><div class="action-text">Publique um <strong>case real</strong> com números — antes/depois de uma campanha (Reel ou Carrossel)</div></div>
+        <div class="action-item"><div class="action-dot dot-green"></div><div class="action-text">Grave um Reel de <strong>opinião forte</strong> sobre tendência do mercado (IA, TikTok, etc.)</div></div>
+        <div class="action-item"><div class="action-dot dot-pink"></div><div class="action-text">Faça um <strong>Stories com enquete</strong> sobre dor do seu público e use as respostas para criar conteúdo</div></div>
+        <div class="action-item"><div class="action-dot dot-amber"></div><div class="action-text">Analise seus <strong>3 melhores posts</strong> e replique o formato que mais engajou</div></div>
+      </div>
+    </div>
+    <div class="action-week">
+      <div class="action-week-label">Semana 4<br><span style="font-size:10px;color:var(--muted);font-family:'Inter',sans-serif;font-weight:400">Escala</span></div>
+      <div class="action-items">
+        <div class="action-item"><div class="action-dot dot-purple"></div><div class="action-text">Faça um <strong>Reels especial</strong> de "o que aprendi no mês" — conteúdo reflexivo performa muito bem</div></div>
+        <div class="action-item"><div class="action-dot dot-green"></div><div class="action-text">Grave uma <strong>série de 3 Reels</strong> conectados (parte 1, 2 e 3) — faz o seguidor voltar</div></div>
+        <div class="action-item"><div class="action-dot dot-pink"></div><div class="action-text">Analise as <strong>métricas do mês</strong>: qual formato teve mais alcance? Dobre nele.</div></div>
+        <div class="action-item"><div class="action-dot dot-amber"></div><div class="action-text">Planeje o <strong>próximo mês</strong> repetindo o que funcionou e testando 2 formatos novos</div></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-label">Metas realistas para 30 dias</p>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px">
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center">
+      <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent)">+20%</div>
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px">Seguidores novos</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center">
+      <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--green)">24</div>
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px">Posts publicados</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center">
+      <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--accent2)">8</div>
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px">Reels gravados</div>
+    </div>
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);padding:18px;text-align:center">
+      <div style="font-family:'Syne',sans-serif;font-size:26px;font-weight:800;color:var(--amber)">3x</div>
+      <div style="font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-top:4px">Mais engajamento</div>
+    </div>
+  </div>
+</div>
+
+<!-- IA -->
+<div class="page" id="page-ia">
+  <div class="hero">
+    <h1>Gerar conteúdo<br><span>com IA</span></h1>
+    <p>Peça para a IA criar legendas, roteiros de Reels, ideias de conteúdo e muito mais — tudo personalizado para o seu perfil de Diretor de Marketing.</p>
+  </div>
+
+  <div class="ai-box">
+    <div class="ai-header">
+      <div class="ai-avatar">🤖</div>
+      <div>
+        <div class="ai-title">Assistente de Conteúdo</div>
+        <div class="ai-sub">Especializado em marketing digital e marca pessoal</div>
+      </div>
+    </div>
+    <div class="ai-presets">
+      <button class="preset-btn" onclick="askAI('Escreva uma legenda completa para um Reel sobre os 3 erros mais comuns em marketing digital. Tom autoritário mas acessível. Inclua CTA e hashtags.')">✍️ Legenda de Reel</button>
+      <button class="preset-btn" onclick="askAI('Crie um roteiro completo de Reel de 60 segundos sobre como criar uma estratégia de marketing do zero. Inclua hook, desenvolvimento e CTA.')">🎬 Roteiro de Reel</button>
+      <button class="preset-btn" onclick="askAI('Sugira 10 ideias criativas de conteúdo para um Diretor de Marketing que quer crescer no Instagram. Foco em autoridade e engajamento.')">💡 10 ideias de conteúdo</button>
+      <button class="preset-btn" onclick="askAI('Crie 5 hooks (primeiras frases) irresistíveis para Reels de marketing digital. Devem parar o scroll em menos de 3 segundos.')">🎣 Hooks para Reels</button>
+      <button class="preset-btn" onclick="askAI('Escreva um texto para Stories em sequência (5 stories) contando um case de sucesso em marketing. Tom pessoal e envolvente.')">📱 Sequência de Stories</button>
+      <button class="preset-btn" onclick="askAI('Crie um carrossel de 7 slides sobre tendências de marketing digital para 2026. Inclua título de cada slide e texto resumido.')">🎠 Roteiro de Carrossel</button>
+    </div>
+    <div class="ai-output empty" id="ai-output">Escolha um tipo de conteúdo acima ou escreva sua solicitação abaixo...</div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" placeholder="Ex: Crie uma legenda para foto de bastidores do escritório..." onkeydown="if(event.key==='Enter')askAI()" />
+      <button class="ai-send" id="ai-send" onclick="askAI()">➤</button>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  event.target.classList.add('active');
+  window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+async function askAI(preset) {
+  const input = document.getElementById('ai-input');
+  const msg = preset || input.value.trim();
+  if (!msg) return;
+  if (!preset) input.value = '';
+
+  const out = document.getElementById('ai-output');
+  const btn = document.getElementById('ai-send');
+  out.classList.remove('empty');
+  out.innerHTML = '<div class="typing"><span></span><span></span><span></span></div>';
+  btn.disabled = true;
+
+  const system = `Você é um especialista em criação de conteúdo para Instagram com foco em marketing digital e marca pessoal. 
+O usuário é Jacson, Diretor de Marketing (@jacson_dreams). 
+Objetivo: crescer seguidores e construir autoridade.
+Público: amplo (empreendedores, profissionais, curiosos).
+Tempo disponível: 30–60 min/dia para conteúdo.
+Dados da conta: 75 posts, 6.3 posts/mês, hora mais ativa 20h, melhor dia Sexta.
+Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis com moderação.`;
+
+  try {
+    const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer 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'
+      },
+      body: JSON.stringify({
+        model: 'llama-3.3-70b-versatile',
+        max_tokens: 1000,
+        messages: [
+          { role: 'system', content: system },
+          { role: 'user', content: msg }
+        ]
+      })
+    });
+    const data = await res.json();
+    const text = data.choices[0].message.content;
+    out.innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/^## (.*)/gm,'<h4 style="color:var(--accent);font-family:Syne,sans-serif;margin:12px 0 6px">$1</h4>').replace(/^- (.*)/gm,'<li style="margin-left:16px;margin-bottom:4px">$1</li>').replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+  } catch(e) {
+    out.innerHTML = '⚠️ Erro ao conectar com a IA. Verifique sua conexão.';
+  }
+  btn.disabled = false;
+}
+
+  // Multi-profile
+  var profiles = [{id:'jacson',handle:'@jacson_dreams',name:'Minha conta',nicho:'Marketing Digital',objetivo:'Crescer autoridade',color:'#b06aff'}];
+  var activeProfileId = 'jacson';
+
+  function renderPlist() {
+    var list = document.getElementById('plist');
+    if (!list) return;
+    var html = '';
+    for (var i = 0; i < profiles.length; i++) {
+      var p = profiles[i];
+      var isA = p.id === activeProfileId;
+      var rmHtml = '';
+      if (profiles.length > 1 && p.id !== 'jacson') {
+        rmHtml = '<span class="p-rm" onclick="event.stopPropagation();rmProfile(' + i + ')">&times;</span>';
+      }
+      html += '<div class="poption' + (isA ? ' acp' : '') + '" onclick="switchProfileIdx(' + i + ')">';
+      html += '<div class="p-radio"><div class="p-radio-dot"></div></div>';
+      html += '<span>' + p.handle + '</span>';
+      html += rmHtml + '</div>';
+    }
+    list.innerHTML = html;
+  }
+
+  function switchProfileIdx(idx) {
+    if (profiles[idx]) switchProfile(profiles[idx].id);
+  }
+
+  function toggleDrop() {
+    document.getElementById('psw').classList.toggle('open');
+    renderPlist();
+  }
+
+  document.addEventListener('click', function(e) {
+    var sw = document.getElementById('psw');
+    if (sw && !sw.contains(e.target)) sw.classList.remove('open');
+  });
+
+  function switchProfile(id) {
+    var p = profiles.find(function(x){return x.id===id});
+    if (!p) return;
+    activeProfileId = id;
+    document.getElementById('psw').classList.remove('open');
+    // Update context badge and hero
+    document.getElementById('ctx-name').textContent = p.handle + ' — ' + p.name;
+    document.getElementById('hero-desc').textContent = 'Planejamento personalizado para ' + p.handle + ' no segmento de ' + p.nicho + '. Objetivo: ' + p.objetivo + '.';
+    renderPlist();
+  }
+
+  function openModal() {
+    document.getElementById('psw').classList.remove('open');
+    document.getElementById('moverlay').classList.add('open');
+    setTimeout(function(){document.getElementById('mhandle').focus()}, 100);
+  }
+
+  function closeModal() {
+    document.getElementById('moverlay').classList.remove('open');
+    ['mhandle','mname','mnicho','mobjetivo'].forEach(function(id){document.getElementById(id).value=''});
+  }
+
+  function addProfile() {
+    var h = document.getElementById('mhandle').value.trim();
+    var n = document.getElementById('mname').value.trim();
+    var ni = document.getElementById('mnicho').value.trim();
+    var ob = document.getElementById('mobjetivo').value.trim();
+    if (!h) { document.getElementById('mhandle').focus(); return; }
+    if (!h.startsWith('@')) h = '@' + h;
+    var colors = ['#1de9a0','#ffb830','#4db8ff','#ff8c42','#e040fb','#f06292'];
+    var color = colors[profiles.length % colors.length];
+    var id = 'p' + Date.now();
+    profiles.push({id:id, handle:h, name:n||'Cliente', nicho:ni||'Geral', objetivo:ob||'Crescer no Instagram', color:color});
+    closeModal();
+    switchProfile(id);
+  }
+
+  function rmProfile(idx) {
+    var id = profiles[idx] ? profiles[idx].id : null;
+    if (!id) return;
+    profiles = profiles.filter(function(p){return p.id!==id});
+    if (activeProfileId===id) switchProfile('jacson');
+    else renderPlist();
+  }
+
+  // Init
+  renderPlist();
+
+</script>
+</body>
+</html>
