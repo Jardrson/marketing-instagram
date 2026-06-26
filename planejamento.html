@@ -1,5 +1,5 @@
 
-<!DOCTYPE html><!-- v7 -->
+<!DOCTYPE html><!-- v8 -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
@@ -818,12 +818,12 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
 
   function openModal() {
 
-    document.getElementById('moverlay').style.display='flex';
+    var mo=document.getElementById('moverlay');mo.style.cssText='display:flex!important;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9999;align-items:center;justify-content:center;padding:20px';
     setTimeout(function(){document.getElementById('mhandle').focus()}, 100);
   }
 
   function closeModal() {
-    document.getElementById('moverlay').style.display='none';
+    document.getElementById('moverlay').style.cssText='display:none!important';
     ['mhandle','mname','mnicho','mobjetivo'].forEach(function(id){document.getElementById(id).value=''});
   }
 
