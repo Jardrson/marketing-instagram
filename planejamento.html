@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+<!DOCTYPE html><!-- v7 -->
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8"/>
@@ -149,24 +150,13 @@ main{max-width:900px;margin:0 auto;padding:32px 24px 80px}
     <button class="nav-btn" onclick="showPage('plano')">🚀 Plano 30d</button>
     <button class="nav-btn" onclick="showPage('ia')">🤖 Gerar com IA</button>
   </nav>
-  <div class="psw" id="psw">
-    <button class="psw-btn" onclick="toggleDrop()" title="Trocar perfil">
-      <div class="hline"></div>
-      <div class="hline"></div>
-      <div class="hline"></div>
-    </button>
-    <div class="pdropdown">
-      <div class="pdrop-label">Selecionar perfil</div>
-      <div id="plist"></div>
-      <div class="pdivider"></div>
-      <div class="padd" onclick="openModal()">
-        <span class="padd-plus">+</span> Novo cliente
-      </div>
-    </div>
-  </div>
+  <select id="profile-select" onchange="switchProfileBySelect(this.value)" style="background:rgba(255,255,255,0.07);border:1px solid rgba(176,106,255,0.3);border-radius:8px;padding:6px 12px;font-size:12px;color:#f0eeff;font-family:'Inter',sans-serif;cursor:pointer;margin-left:8px;outline:none">
+    <option value="jacson">@jacson_dreams</option>
+  </select>
+  <button onclick="openModal()" style="background:rgba(176,106,255,0.15);border:1px solid rgba(176,106,255,0.35);border-radius:8px;padding:6px 12px;font-size:12px;color:#b06aff;font-family:'Inter',sans-serif;cursor:pointer;margin-left:6px">+ Cliente</button>
 </header>
 
-<div class="moverlay" id="moverlay">
+<div class="moverlay" id="moverlay" style="display:none" onclick="if(event.target===this)closeModal()">
   <div class="mbox">
     <div class="mbox-icon">&#128100;</div>
     <h3>Novo perfil de cliente</h3>
@@ -772,6 +762,18 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
   btn.disabled = false;
 }
 
+  function switchProfileBySelect(id) {
+    switchProfile(id);
+  }
+
+  function updateSelect() {
+    var sel = document.getElementById('profile-select');
+    if (!sel) return;
+    sel.innerHTML = profiles.map(function(p) {
+      return '<option value="' + p.id + '"' + (p.id===activeProfileId?' selected':'') + '>' + p.handle + '</option>';
+    }).join('');
+  }
+
   // Multi-profile
   var profiles = [{id:'jacson',handle:'@jacson_dreams',name:'Minha conta',nicho:'Marketing Digital',objetivo:'Crescer autoridade',color:'#b06aff'}];
   var activeProfileId = 'jacson';
@@ -799,21 +801,15 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
     if (profiles[idx]) switchProfile(profiles[idx].id);
   }
 
-  function toggleDrop() {
-    document.getElementById('psw').classList.toggle('open');
-    renderPlist();
-  }
+  function toggleDrop() { renderPlist(); }
 
-  document.addEventListener('click', function(e) {
-    var sw = document.getElementById('psw');
-    if (sw && !sw.contains(e.target)) sw.classList.remove('open');
-  });
+
 
   function switchProfile(id) {
     var p = profiles.find(function(x){return x.id===id});
     if (!p) return;
     activeProfileId = id;
-    document.getElementById('psw').classList.remove('open');
+
     // Update context badge and hero
     document.getElementById('ctx-name').textContent = p.handle + ' — ' + p.name;
     document.getElementById('hero-desc').textContent = 'Planejamento personalizado para ' + p.handle + ' no segmento de ' + p.nicho + '. Objetivo: ' + p.objetivo + '.';
@@ -821,13 +817,13 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
   }
 
   function openModal() {
-    document.getElementById('psw').classList.remove('open');
-    document.getElementById('moverlay').classList.add('open');
+
+    document.getElementById('moverlay').style.display='flex';
     setTimeout(function(){document.getElementById('mhandle').focus()}, 100);
   }
 
   function closeModal() {
-    document.getElementById('moverlay').classList.remove('open');
+    document.getElementById('moverlay').style.display='none';
     ['mhandle','mname','mnicho','mobjetivo'].forEach(function(id){document.getElementById(id).value=''});
   }
 
@@ -843,6 +839,9 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
     var id = 'p' + Date.now();
     profiles.push({id:id, handle:h, name:n||'Cliente', nicho:ni||'Geral', objetivo:ob||'Crescer no Instagram', color:color});
     closeModal();
+    updateSelect();
+    document.getElementById('ctx-name').textContent = p.handle + ' — ' + p.name;
+    document.getElementById('hero-desc').textContent = 'Planejamento personalizado para ' + p.handle + ' no segmento de ' + p.nicho + '. Objetivo: ' + p.objetivo + '.';
     switchProfile(id);
   }
 
@@ -850,8 +849,8 @@ Escreva em português brasileiro. Seja direto, prático e criativo. Use emojis c
     var id = profiles[idx] ? profiles[idx].id : null;
     if (!id) return;
     profiles = profiles.filter(function(p){return p.id!==id});
+    updateSelect();
     if (activeProfileId===id) switchProfile('jacson');
-    else renderPlist();
   }
 
   // Init
